@@ -129,10 +129,8 @@
 						id="InputDepart" type="text" onfocus="(this.type='date')" /> <input
 						class="form-control" required name="em" id="InputReturn"
 						placeholder="Return" type="text" onfocus="(this.type='date')" />
-
-
-
 				</div>
+				
 				<div style="padding-top: 30px;">
 					<button type="submit">
 						Search <i class="fa fa-arrow-right" aria-hidden="true"></i>

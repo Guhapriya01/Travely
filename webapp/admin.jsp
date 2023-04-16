@@ -14,7 +14,7 @@
 }
 
 .back-img {
-	background: url("../img/admin.jpg");
+	background: url("img/admin.jpg");
 	width: 100%;
 	height: 80vh;
 	background-repeat: no-repeat;
