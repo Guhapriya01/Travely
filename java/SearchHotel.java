@@ -1,18 +1,22 @@
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import java.util.*;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-@WebServlet("/UpdateHotel")
-public class UpdateHotel extends HttpServlet {
+import com.booking.Hotel;
+
+@WebServlet("/SearchHotel")
+public class SearchHotel extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	public UpdateHotel() {
+	public SearchHotel() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -25,29 +29,30 @@ public class UpdateHotel extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
+
 		PrintWriter out = response.getWriter();
 
-		String name = request.getParameter("name");
+		String location = request.getParameter("location");
 
-		double price = Double.parseDouble(request.getParameter("price"));
+		String checkin = request.getParameter("checkin");
+		String checkout = request.getParameter("checkout");
+
+		int rooms = Integer.parseInt(request.getParameter("rooms"));
 
 		try {
 			HotelDAO hotelDAO = new HotelDAO();
-			int i = hotelDAO.updateHotel(name, price);
-			String s = i == 1 ? "Updated" : "Not Updated";
-			HttpSession session = request.getSession();
-			session.setAttribute("message", s);
-			session.setAttribute("type", "Tab2");
+			List<Hotel> results = hotelDAO.getHotels(location, checkin, checkout, rooms);
 
-			String referer = request.getHeader("referer");
-			response.sendRedirect(referer);
+			request.setAttribute("hotels", results);
+			
+			RequestDispatcher rd = request.getRequestDispatcher("hotel.jsp");
+			
+			rd.forward(request, response);
 
 		} catch (Exception e) {
 			out.print(e);
 		}
 
-		// out.print(name+" "+price);
+		// out.print(rooms+" "+location);
 	}
-
 }

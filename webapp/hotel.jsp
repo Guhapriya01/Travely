@@ -1,10 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8" import="java.util.*"%>
+<%@ page import="com.booking.Hotel"%>
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Hotels</title>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ"
+	crossorigin="anonymous">
 <%@include file="all_components/all_css.jsp"%>
 <style>
 * {
@@ -12,15 +19,23 @@
 		BlinkMacSystemFont, "Roboto", "Oxygen", "Ubuntu", "Cantarell",
 		"Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif
 }
+#notAvail {
+	padding: 24px;
+	text-align: center;
+	font-size: 23px;
+	color: #3d2a40;
+	font-variant: petite-caps;
+	font-weight: bolder;
+}
 
 .back-img {
-	background: url("https://www.pixelstalk.net/wp-content/uploads/images6/4K-Travel-HD-Wallpaper.jpg");
+	background:
+		url("https://www.pixelstalk.net/wp-content/uploads/images6/4K-Travel-HD-Wallpaper.jpg");
 	width: 100%;
 	height: 80vh;
 	background-repeat: no-repeat;
 	background-size: cover;
 }
-
 
 .number-input {
 	display: flex;
@@ -81,7 +96,7 @@
 	padding-left: 233px;
 	padding-right: 233px;
 	padding-top: 20px;
-	color:white
+	color: white
 }
 </style>
 </head>
@@ -90,45 +105,81 @@
 	<div class="back-img">
 		<div>
 			<h1 align="center"
-				style="padding-top: 30px; color: white; margin: 0px;">Find the right hotel today</h1>
+				style="padding-top: 30px; color: white; margin: 0px;">Find the
+				right hotel today</h1>
 		</div>
 		<div style="padding-top: 10px;">
-
 			<div class="myList" align="center">
-				<div class="pad">
-					<label>Destination</label> <select id="city-select">
-						<option value="bengalore">Bangalore</option>
-						<option value="new-york">New York</option>
-						<option value="los-angeles">Los Angeles</option>
-						<option value="chennai">Chennai</option>
-						<option value="houston">Houston</option>
-						<option value="miami">Miami</option>
-					</select>
-				</div>
+				<form action="SearchHotel" method="post">
+					<div class="pad">
+						<label>Destination</label> <select id="city-select"
+							name="location">
+							<option value="bengalore">Bangalore</option>
+							<option value="new-york">New York</option>
+							<option value="los-angeles">Los Angeles</option>
+							<option value="chicago">Chicago</option>
+							<option value="houston">Houston</option>
+							<option value="miami">Miami</option>
+						</select>
+					</div>
 
-				<div class="pad">
-					<label>Check-in</label> <input class="form-control" required
-						name="in" placeholder="Check In" id="InputIn" type="text"
-						onfocus="(this.type='date')" />
-				</div>
-				<div class="pad">
-					<label>Check-out</label> <input class="form-control" required
-						name="out" id="InputOut" placeholder="Check Out" type="text"
-						onfocus="(this.type='date')" />
-				</div>
+					<div class="pad">
+						<label>Check-in</label> <input class="form-control" required
+							name="checkin" placeholder="Check In" id="InputIn" type="text"
+							onfocus="(this.type='date')" />
+					</div>
+					<div class="pad">
+						<label>Check-out</label> <input class="form-control" required
+							name="checkout" id="InputOut" placeholder="Check Out" type="text"
+							onfocus="(this.type='date')" />
+					</div>
 
-				<div class="pad">
-					<label>Rooms</label> <input type="number" value="0" min="0"
-						max="50" id="rooms">
-				</div>
+					<div class="pad">
+						<label>Rooms</label> <input type="number" value="0" min="0"
+							name="rooms" max="50" id="rooms">
+					</div>
 
-				<div style="padding-top: 30px;">
-					<button type="submit">
-						Search Hotels <i class="fa fa-arrow-right" aria-hidden="true"></i>
-					</button>
-				</div>
+					<div style="padding-top: 30px;">
+						<button type="submit">
+							Search Hotels <i class="fa fa-arrow-right" aria-hidden="true"></i>
+						</button>
+					</div>
+				</form>
 			</div>
 		</div>
 	</div>
+	<%
+	String hotelName = "";
+	%>
+
+	<table class="table table-bordered">
+		<tbody>
+			<%
+			if (request.getAttribute("hotels") != null) {
+				ArrayList<Hotel> hotels = (ArrayList<Hotel>) request.getAttribute("hotels");
+				if (hotels.size() == 0) {
+					%>
+					<div id="notAvail">No Hotels Available !!</div>
+					<%
+					} else {
+				for (Hotel hotel : hotels) {
+					hotelName = (String) hotel.getName();
+			%>
+			<tr>
+				<td><%=hotel.getName()%></td>
+				<td><%=hotel.getPrice()%></td>
+				<td><%=hotel.getRooms()%></td>
+				<form action="HotelName" method="post">
+					<input id="name" name="name" type="hidden" value="<%=hotel.getName()%>">
+				<td><button type="submit">Book</button></td>
+				</form>
+			</tr>
+			<%
+			}
+			}
+			}
+			%>
+		</tbody>
+	</table>
 </body>
 </html>

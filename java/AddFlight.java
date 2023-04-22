@@ -6,6 +6,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @WebServlet("/AddFlight")
 public class AddFlight extends HttpServlet {
@@ -31,7 +32,6 @@ public class AddFlight extends HttpServlet {
 		String from = request.getParameter("from");
 		String to = request.getParameter("to");
 		
-		String departureDate = request.getParameter("departureDate");
 		String departureTime = request.getParameter("departureTime");
 		String arrivalTime = request.getParameter("arrivalTime");
 		
@@ -50,7 +50,18 @@ public class AddFlight extends HttpServlet {
 		
 		try {
 			FlightDAO flightDAO = new FlightDAO();
-			flightDAO.addFlight(name, departureDate);
+			int i=flightDAO.addFlight(name, from, to,departureTime , arrivalTime, Eseats, Bseats, Pseats, Fseats,EPrice, BPrice, PPrice,FPrice);
+			// System.out.print(i);
+
+			String s = i == 1 ? "Successfully Inserted" : "Not Inserted";
+			
+			HttpSession session = request.getSession();
+			session.setAttribute("message", s);
+			session.setAttribute("type", "Tab1");
+			
+			String referer = request.getHeader("referer");
+			response.sendRedirect(referer);
+			
 		}
 		catch(Exception e) {
 			out.print(e);

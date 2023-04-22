@@ -6,6 +6,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @WebServlet("/DeleteFlight")
 public class DeleteFlight extends HttpServlet {
@@ -29,10 +30,26 @@ public class DeleteFlight extends HttpServlet {
 		PrintWriter out = response.getWriter();
 
 		String name = request.getParameter("name");
-		String departureDate = request.getParameter("departureDate");
-		String departureTime = request.getParameter("departureTime");
+		//String departureDate = request.getParameter("departureDate");
+		// String departureTime = request.getParameter("departureTime");
 
-		out.println(name + " " + departureTime + " " + departureDate);
+		//out.println(name + " " + departureTime + " " + departureDate);
+
+		try {
+			FlightDAO flightDAO = new FlightDAO();
+			int i = flightDAO.deleteFlight(name);
+			
+			String s = i == 1 ? "Successfully Deleted" : "Not Deleted";
+			
+			HttpSession session = request.getSession();
+			session.setAttribute("message", s);
+			session.setAttribute("type", "Tab3");
+			
+			String referer = request.getHeader("referer");
+			response.sendRedirect(referer);
+		} catch (Exception e) {
+			out.print(e);
+		}
 	}
 
 }

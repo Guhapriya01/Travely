@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8" import="java.util.*"%>
+<%@ page import="com.booking.Flight"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,6 +11,15 @@
 	font-family: RelativeSet, "Skyscanner Relative", -apple-system,
 		BlinkMacSystemFont, "Roboto", "Oxygen", "Ubuntu", "Cantarell",
 		"Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif
+}
+
+#notAvail {
+	padding: 24px;
+	text-align: center;
+	font-size: 23px;
+	color: #3d2a40;
+	font-variant: petite-caps;
+	font-weight: bolder;
 }
 
 .number-input {
@@ -83,7 +93,11 @@
 	color: white
 }
 </style>
-<%@include file="all_components/all_css.jsp"%>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ"
+	crossorigin="anonymous">
 </head>
 <body style="margin: 0px">
 	<%@include file="all_components/navbar.jsp"%>
@@ -95,69 +109,88 @@
 		</div>
 		<div style="padding-top: 10px;">
 			<div class="myList" align="center">
-				<div class="pad">
-					<select id="fcity-select">
-						<option value="">From</option>
-						<option value="new-york">New York</option>
-						<option value="los-angeles">Los Angeles</option>
-						<option value="chicago">Chicago</option>
-						<option value="houston">Houston</option>
-						<option value="miami">Miami</option>
-					</select> <select id="tcity-select">
-						<option value="">To</option>
-						<option value="new-york">New York</option>
-						<option value="los-angeles">Los Angeles</option>
-						<option value="chicago">Chicago</option>
-						<option value="houston">Houston</option>
-						<option value="miami">Miami</option>
-					</select> <input class="form-control" required name="em"
-						placeholder="Depart" id="InputDepart" type="text"
-						onfocus="(this.type='date')" />
-				</div>
+				<form action="SearchFlight" method="post">
+					<div class="pad">
+						<select id="fcity-select" name="from">
+							<option value="">From</option>
+							<option value="new-york">New York</option>
+							<option value="los-angeles">Los Angeles</option>
+							<option value="chicago">Chicago</option>
+							<option value="houston">Houston</option>
+							<option value="miami">Miami</option>
+						</select> <select id="tcity-select" name="to">
+							<option value="">To</option>
+							<option value="new-york">New York</option>
+							<option value="los-angeles">Los Angeles</option>
+							<option value="chicago">Chicago</option>
+							<option value="houston">Houston</option>
+							<option value="miami">Miami</option>
+						</select>
+					</div>
 
-				<div class="pad">
-					<select id="city-select">
-						<option value="">From</option>
-						<option value="new-york">New York</option>
-						<option value="los-angeles">Los Angeles</option>
-						<option value="chicago">Chicago</option>
-						<option value="houston">Houston</option>
-						<option value="miami">Miami</option>
-					</select> <select id="city-select">
-						<option value="">To</option>
-						<option value="new-york">New York</option>
-						<option value="los-angeles">Los Angeles</option>
-						<option value="chicago">Chicago</option>
-						<option value="houston">Houston</option>
-						<option value="miami">Miami</option>
-					</select> <input class="form-control" required name="em" id="InputReturn"
-						placeholder="Return" type="text" onfocus="(this.type='date')" />
+					<div class="pad">
+						<label>Date</label> <input class="form-control" required
+							name="date" placeholder="date" id="InputIn" type="text"
+							onfocus="(this.type='date')" />
+					</div>
 
 
-				</div>
-
-				<div class="pad">
-					<label>Cabin</label> <select id="economy-select">
-						<option value="econmy">Economy</option>
-						<option value="premium">Premium Economy</option>
-						<option value="business">Business Class</option>
-						<option value="first">First Class</option>
-					</select>
-				</div>
-
-				<div class="pad">
-					<label>Members</label> <input type="number" value="0" min="0"
-						max="100" id="members">
-
-				</div>
-
-				<div style="padding-top: 30px;">
-					<button type="submit">
-						Search <i class="fa fa-arrow-right" aria-hidden="true"></i>
-					</button>
-				</div>
+					<div class="pad">
+						<select id="economy-select" name="cabin">
+							<option value="">Select Cabin</option>
+							<option value="economy">Economy</option>
+							<option value="premium">Premium Economy</option>
+							<option value="business">Business Class</option>
+							<option value="first_class">First Class</option>
+						</select>
+					</div>
+					<div style="padding-top: 30px;">
+						<button type="submit">
+							Search <i class="fa fa-arrow-right" aria-hidden="true"></i>
+						</button>
+					</div>
+				</form>
 			</div>
 		</div>
 	</div>
+	<%
+	String flightName = "", cabin = "";
+	%>
+
+	<table class="table table-bordered">
+		<tbody>
+			<%
+			if (request.getAttribute("flights") != null) {
+
+				ArrayList<Flight> flights = (ArrayList<Flight>) request.getAttribute("flights");
+
+				if (flights.size() == 0) {
+			%>
+			<div id="notAvail">No Flights Available !!</div>
+			<%
+			} else {
+			cabin = (String) request.getAttribute("cabin");
+
+			for (Flight flight : flights) {
+				flightName = (String) flight.getName();
+			%>
+			<tr>
+				<td><%=flight.getName()%></td>
+				<td><%=flight.getPrice()%></td>
+				<td><%=flight.getDeparture()%></td>
+				<form action="FlightName" method="post">
+					<input id="name" name="name" type="hidden"
+						value="<%=flight.getName()%>"> <input id="Gcabin"
+						name="Gcabin" type="hidden" value="<%=cabin%>">
+					<td><button type="submit">Book</button></td>
+				</form>
+			</tr>
+			<%
+			       }
+		     	}
+			}
+			%>
+		</tbody>
+	</table>
 </body>
 </html>

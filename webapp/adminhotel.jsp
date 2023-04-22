@@ -90,6 +90,7 @@
 	border: none;
 	cursor: pointer;
 }
+
 .myList .pad label {
 	padding-right: 50px;
 }
@@ -104,6 +105,16 @@
 	padding-top: 20px;
 	color: black
 }
+
+#message {
+	text-align: center;
+	color: #844444;
+	font-size: x-large;
+	padding-bottom: -3px;
+	font-variant: small-caps;
+	font-weight: bolder;
+}
+
 </style>
 
 <link rel="stylesheet"
@@ -125,6 +136,9 @@
 		<a href="#" class="tablinks" onclick="openTab(event, 'Tab2')">Update</a>
 		<a href="#" class="tablinks" onclick="openTab(event, 'Tab3')">Delete</a>
 	</div>
+	
+	
+	<div id="message"></div>
 
 	<div id="Tab1" class="tabcontent">
 		<div style="padding-left: 13%; padding-right: 13%;">
@@ -142,7 +156,8 @@
 									</div>
 
 									<div class="pad">
-										<label>Location </label> <select id="city-select" name="location">
+										<label>Location </label> <select id="city-select"
+											name="location">
 											<option value="new-york">New York</option>
 											<option value="los-angeles">Los Angeles</option>
 											<option value="chicago">Chicago</option>
@@ -152,13 +167,13 @@
 									</div>
 
 									<div class="pad">
-										<label>Rooms</label> <input type="number" placeholder="Rooms" name="rooms"
-											min="0" max="100" id="rooms">
+										<label>Rooms</label> <input type="number" placeholder="Rooms"
+											name="rooms" min="0" max="100" id="rooms">
 									</div>
 
 									<div class="pad">
-										<label>Price per day</label> <input type="number" step="0.01" name="price"
-											min="0" placeholder="Price" id="Price">
+										<label>Price per day</label> <input type="number" step="0.01"
+											name="price" min="0" placeholder="Price" id="Price">
 									</div>
 
 
@@ -236,7 +251,29 @@
 		</div>
 	</div>
 
+	<%
+	String message = (String) session.getAttribute("message");
+	String type = (String) session.getAttribute("type");
+
+	session.removeAttribute("type");
+	session.removeAttribute("message");
+	%>
+
 	<script>
+	
+	 var message = '<%=message%>';
+     var type = '<%=type%>';
+
+		if (type == "Tab1" || type == "Tab2" || type == "Tab3") {
+			document.getElementById(type).style.display = "block";
+		}
+
+		if (message != 'null') {
+			document.getElementById("message").innerHTML = message + " !!";
+		}
+		// window.history.replaceState({}, document.title, window.location.pathname);
+
+		console.log(type);
 		function openTab(evt, tabName) {
 			var i, tabcontent, tablinks;
 			tabcontent = document.getElementsByClassName("tabcontent");
@@ -250,6 +287,8 @@
 			}
 			document.getElementById(tabName).style.display = "block";
 			evt.currentTarget.className += " active";
+			
+			document.getElementById("message").style.display="none";
 		}
 	</script>
 </body>

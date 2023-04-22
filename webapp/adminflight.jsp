@@ -105,6 +105,15 @@
 	padding-top: 20px;
 	color: black
 }
+
+#message {
+	text-align: center;
+	color: #844444;
+	font-size: x-large;
+	padding-bottom: -3px;
+	font-variant: small-caps;
+	font-weight: bolder;
+}
 </style>
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
@@ -124,6 +133,8 @@
 		<a href="#" class="tablinks" onclick="openTab(event, 'Tab2')">Update</a>
 		<a href="#" class="tablinks" onclick="openTab(event, 'Tab3')">Delete</a>
 	</div>
+
+	<div id="message"></div>
 
 	<div id="Tab1" class="tabcontent">
 		<div style="padding-left: 13%; padding-right: 13%;">
@@ -161,14 +172,9 @@
 									</div>
 
 									<div class="pad">
-										<label>Departure Date</label><input class="form-control"
-											required placeholder="Depart" id="InputDepart" type="text"
-											onfocus="(this.type='date')" name="departureDate" />
-									</div>
-
-									<div class="pad">
 										<label>Departure Time</label> <select id="time-select"
 											name="departureTime">
+											<option value="">Select departure time</option>
 											<option value="00:00">00:00</option>
 											<option value="00:30">00:30</option>
 											<option value="01:00">01:00</option>
@@ -223,6 +229,7 @@
 									<div class="pad">
 										<label>Arrival Time</label> <select id="time-select"
 											name="arrivalTime">
+											<option value="">Select arrival time</option>
 											<option value="00:00">00:00</option>
 											<option value="00:30">00:30</option>
 											<option value="01:00">01:00</option>
@@ -332,14 +339,70 @@
 											required name="name" id="InputName" placeholder="Name"
 											type="text" />
 									</div>
-									<div class="pad">
+								<!--  <div class="pad">
 										<label>Departure Date</label><input class="form-control"
 											required name="departureDate" placeholder="Depart"
 											id="InputDepart" type="text" onfocus="(this.type='date')" />
-									</div>
+									</div> 
+									-->	
 									<div class="pad">
 										<label>Departure Time</label> <select id="time-select"
 											name="departureTime">
+											<option value="">Select departure time</option>
+											<option value="00:00">00:00</option>
+											<option value="00:30">00:30</option>
+											<option value="01:00">01:00</option>
+											<option value="01:30">01:30</option>
+											<option value="02:00">02:00</option>
+											<option value="02:30">02:30</option>
+											<option value="03:00">03:00</option>
+											<option value="03:30">03:30</option>
+											<option value="04:00">04:00</option>
+											<option value="04:30">04:30</option>
+											<option value="05:00">05:00</option>
+											<option value="05:30">05:30</option>
+											<option value="06:00">06:00</option>
+											<option value="06:30">06:30</option>
+											<option value="07:00">07:00</option>
+											<option value="07:30">07:30</option>
+											<option value="08:00">08:00</option>
+											<option value="08:30">08:30</option>
+											<option value="09:00">09:00</option>
+											<option value="09:30">09:30</option>
+											<option value="10:00">10:00</option>
+											<option value="10:30">10:30</option>
+											<option value="11:00">11:00</option>
+											<option value="11:30">11:30</option>
+											<option value="12:00">12:00</option>
+											<option value="12:30">12:30</option>
+											<option value="13:00">13:00</option>
+											<option value="13:30">13:30</option>
+											<option value="14:00">14:00</option>
+											<option value="14:30">14:30</option>
+											<option value="15:00">15:00</option>
+											<option value="15:30">15:30</option>
+											<option value="16:00">16:00</option>
+											<option value="16:30">16:30</option>
+											<option value="17:00">17:00</option>
+											<option value="17:30">17:30</option>
+											<option value="18:00">18:00</option>
+											<option value="18:30">18:30</option>
+											<option value="19:00">19:00</option>
+											<option value="19:30">19:30</option>
+											<option value="20:00">20:00</option>
+											<option value="20:30">20:30</option>
+											<option value="21:00">21:00</option>
+											<option value="21:30">21:30</option>
+											<option value="22:00">22:00</option>
+											<option value="22:30">22:30</option>
+											<option value="23:00">23:00</option>
+											<option value="23:30">23:30</option>
+										</select>
+									</div>
+									<div class="pad">
+										<label>Arrival Time</label> <select id="time-select"
+											name="arrivalTime">
+											<option value="">Select arrival time</option>
 											<option value="00:00">00:00</option>
 											<option value="00:30">00:30</option>
 											<option value="01:00">01:00</option>
@@ -442,7 +505,7 @@
 											type="text" />
 									</div>
 
-									<div class="pad">
+								<!--  	<div class="pad">
 										<label>Departure Date</label><input class="form-control"
 											required name="departureDate" placeholder="Depart"
 											id="InputDepart" type="text" onfocus="(this.type='date')" />
@@ -500,7 +563,7 @@
 											<option value="23:00">23:00</option>
 											<option value="23:30">23:30</option>
 										</select>
-									</div>
+									</div> -->
 
 									<div style="padding-top: 30px;">
 										<button type="submit">
@@ -517,7 +580,31 @@
 		</div>
 	</div>
 
+	<%
+	String message = (String) session.getAttribute("message");
+	String type = (String) session.getAttribute("type");
+
+	session.removeAttribute("type");
+	session.removeAttribute("message");
+	%>
 	<script>
+	
+        var message = '<%=message%>';
+        var type = '<%=type%>';
+
+		if (type == "Tab1" || type == "Tab2" || type == "Tab3") {
+			document.getElementById(type).style.display = "block";
+			//
+		}
+
+		if (message != 'null') {
+			document.getElementById("message").innerHTML = message + " !!";
+			//
+		}
+		// window.history.replaceState({}, document.title, window.location.pathname);
+
+		console.log(type);
+
 		function openTab(evt, tabName) {
 			var i, tabcontent, tablinks;
 			tabcontent = document.getElementsByClassName("tabcontent");
@@ -531,6 +618,8 @@
 			}
 			document.getElementById(tabName).style.display = "block";
 			evt.currentTarget.className += " active";
+			
+			document.getElementById("message").style.display="none";
 		}
 	</script>
 </body>

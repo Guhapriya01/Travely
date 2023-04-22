@@ -6,6 +6,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @WebServlet("/AddHotel")
 public class AddHotel extends HttpServlet {
@@ -33,6 +34,25 @@ public class AddHotel extends HttpServlet {
 		int rooms = Integer.parseInt(request.getParameter("rooms"));
 		
 		double price = Double.parseDouble(request.getParameter("price"));
+		
+		try {
+			HotelDAO hotelDAO = new HotelDAO();
+			int i = hotelDAO.addHotel(name, location, rooms, price);
+			
+			// System.out.print(i);
+
+			String s = i == 1 ? "Successfully Inserted" : "Not Inserted";
+			
+			HttpSession session = request.getSession();
+			session.setAttribute("message", s);
+			session.setAttribute("type", "Tab1");
+			
+			String referer = request.getHeader("referer");
+			response.sendRedirect(referer);
+			
+		} catch (Exception e) {
+			out.print(e);
+		}
 
 		// out.print(rooms+" "+location);
 	}
