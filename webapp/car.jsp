@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8" import="java.util.*"%>
+<%@ page import="com.booking.Car"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,6 +11,15 @@
 	font-family: RelativeSet, "Skyscanner Relative", -apple-system,
 		BlinkMacSystemFont, "Roboto", "Oxygen", "Ubuntu", "Cantarell",
 		"Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif
+}
+
+#notAvail {
+	padding: 24px;
+	text-align: center;
+	font-size: 23px;
+	color: #3d2a40;
+	font-variant: petite-caps;
+	font-weight: bolder;
 }
 
 .number-input {
@@ -25,12 +35,6 @@
 	border-radius: 5px;
 	font-size: 16px;
 	text-align: center;
-}
-
-.number-input .increment-btn {
-	position: absolute;
-	right: 10px;
-	cursor: pointer;
 }
 
 .myList {
@@ -82,8 +86,22 @@
 	padding-top: 20px;
 	color: white
 }
+
+#val{
+	padding: 23px;
+	box-shadow: aquamarine;
+	font-size: 24px;
+	text-align: center;
+	font-style: oblique;
+	font-variant: petite-caps;
+	font-weight: bold;
+}
 </style>
-<%@include file="all_components/all_css.jsp"%>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ"
+	crossorigin="anonymous">
 </head>
 <body style="margin: 0px">
 	<%@include file="all_components/navbar.jsp"%>
@@ -98,7 +116,8 @@
 			<div class="myList" align="center">
 				<form action="SearchCar" method="post">
 					<div class="pad">
-						<label>Pick up Location</label> <select id="city-select">
+						<label>Pick up Location</label> <select id="city-select"
+							name="location">
 							<option value="bengalore">Bangalore</option>
 							<option value="new-york">New York</option>
 							<option value="los-angeles">Los Angeles</option>
@@ -109,12 +128,12 @@
 					</div>
 
 					<div class="pad">
-						<label>Date</label> <input class="form-control" required name="in"
-							placeholder="date" id="InputIn" type="text"
+						<label>Date</label> <input class="form-control" required
+							name="date" placeholder="date" id="InputIn" type="text"
 							onfocus="(this.type='date')" />
 					</div>
 					<div class="pad">
-						<select id="time-select">
+						<select id="time-select" name="pickup">
 							<option value="">Select pick up time</option>
 							<option value="01:00">00:00</option>
 							<option value="01:30">00:30</option>
@@ -164,7 +183,7 @@
 							<option value="01:30">22:30</option>
 							<option value="23:00">23:00</option>
 							<option value="23:30">23:30</option>
-						</select> <select id="time-select">
+						</select> <select id="time-select" name="drop">
 							<option value="">Select drop out time</option>
 							<option value="01:00">00:00</option>
 							<option value="01:30">00:30</option>
@@ -225,8 +244,44 @@
 				</form>
 			</div>
 		</div>
-
 	</div>
+	<%
+	String carName = "";
+	%>
 
+	<table class="table table-bordered" style="width: 80%;margin-left: 10%;margin-top: 55px;">
+		<tbody>
+			<%
+			if (request.getAttribute("cars") != null) {
+
+				ArrayList<Car> cars = (ArrayList<Car>) request.getAttribute("cars");
+
+				if (cars.size() == 0) {
+			%>
+			<div id="notAvail">No Cars Available !!</div>
+			<%
+			} else {
+
+			for (Car car : cars) {
+				carName = (String) car.getType();
+			%>
+			<tr>
+				<td id="val"><%=car.getType()%></td>
+				<td style="text-align: center;padding-top: 4%;"> Rs. <%=car.getPrice()%></td>
+				<td style="text-align: center;padding-top: 4%;"><%=car.getSeats()%></td>
+				<form action="CarName" method="post">
+					<input id="name" name="name" type="hidden"
+						value="<%=car.getType()%>"> <input id="number"
+						name="number" type="hidden" value="<%=car.getNumber()%>">
+					<td style="text-align: center;padding-top: 2%;"><button type="submit" style="border: none;color: white;background-color: #4478b2;border-radius: 14px;padding: 10px;">Book</button></td>
+				</form>
+			</tr>
+			<%
+			}
+			}
+			}
+			%>
+		</tbody>
+	</table>
 </body>
 </html>

@@ -45,7 +45,7 @@ public class BookHotel extends HttpServlet {
 			HotelDAO hotelDAO = new HotelDAO();
 			String[] s = (hotelDAO.getHotelIdPrice(hname)).split("-");
 			
-			double totalcost = Double.parseDouble(s[1]);
+			double totalcost = Double.parseDouble(s[1]) ;
 			int hotelId = Integer.parseInt(s[0]);
 			
 			// HotelBooking insertion

@@ -8,11 +8,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-@WebServlet("/BookFlight")
-public class BookFlight extends HttpServlet {
+@WebServlet("/BookCar")
+public class BookCar extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    public BookFlight() {
+
+    public BookCar() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -23,38 +23,40 @@ public class BookFlight extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		PrintWriter out = response.getWriter();
+PrintWriter out = response.getWriter();
 		
 		String uname = request.getParameter("uname");
 		String email = request.getParameter("email");
 		String phone = request.getParameter("phone");
 		
 		String date = request.getParameter("date");
-		String cabin = request.getParameter("cabin");
 		
-		String fname = request.getParameter("fname");
-		// out.print(name);
+		String cin = request.getParameter("in");
+		String cout = request.getParameter("out");
+		
+		String number = request.getParameter("number");
+		System.out.print(number);
 		
 		try {
 			CustomerDAO custDAO = new CustomerDAO();
 			int customerId = custDAO.addCustomer(uname, email, phone);
 			
-			FlightDAO flightDAO = new FlightDAO();
-			String[] s = (flightDAO.getFlightIdPrice(fname,cabin)).split("-");
+			CarDAO carDAO = new CarDAO();
+			String[] s = (carDAO.getCarIdPrice(number)).split("-");
 			
 			double totalcost = Double.parseDouble(s[1]);
-			int flightId = Integer.parseInt(s[0]);
+			int carId = Integer.parseInt(s[0]);
 			
 			// HotelBooking insertion
-			FlightBookingDAO book = new FlightBookingDAO();
-			int i = book.addFlightBooking(customerId, flightId, date, cabin, totalcost);
+			CarBookingDAO book = new CarBookingDAO();
+			int i = book.addCarBooking(carId, customerId, date, cin, cout, totalcost);
 			
 			// completed
 			String msg = i == 1 ? "Successfully Booked" : "Unable to book your hotel. Try again Later";
 			
 			HttpSession session = request.getSession();
 			session.setAttribute("message", msg);
-			response.sendRedirect("flightBooking.jsp");
+			response.sendRedirect("carBooking.jsp");
 			
 
 		} catch (Exception e) {

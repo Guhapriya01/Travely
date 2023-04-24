@@ -36,6 +36,15 @@
 	background-repeat: no-repeat;
 	background-size: cover;
 }
+#val{
+	padding: 23px;
+	box-shadow: aquamarine;
+	font-size: 24px;
+	text-align: center;
+	font-style: oblique;
+	font-variant: petite-caps;
+	font-weight: bold;
+}
 
 .number-input {
 	display: flex;
@@ -152,7 +161,7 @@
 	String hotelName = "";
 	%>
 
-	<table class="table table-bordered">
+	<table class="table table-bordered" style="width: 80%;margin-left: 10%;margin-top: 55px;">
 		<tbody>
 			<%
 			if (request.getAttribute("hotels") != null) {
@@ -166,12 +175,12 @@
 					hotelName = (String) hotel.getName();
 			%>
 			<tr>
-				<td><%=hotel.getName()%></td>
-				<td><%=hotel.getPrice()%></td>
-				<td><%=hotel.getRooms()%></td>
+				<td id="val"><%=hotel.getName()%></td>
+				<td style="text-align: center;padding-top: 4%;"> Rs. <%=hotel.getPrice()%></td>
+				<td style="text-align: center;padding-top: 3%;"><b style="font-size: 26px;"> <%=hotel.getRooms()%> </b> Rooms Available</td>
 				<form action="HotelName" method="post">
 					<input id="name" name="name" type="hidden" value="<%=hotel.getName()%>">
-				<td><button type="submit">Book</button></td>
+				<td style="text-align: center;padding-top: 2%;"><button  style="border: none;color: white;background-color: #4478b2;border-radius: 14px;padding: 10px;" type="submit">Book</button></td>
 				</form>
 			</tr>
 			<%

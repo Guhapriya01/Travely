@@ -205,7 +205,7 @@ public class FlightDAO {
 
 		while (rs.next()) {
 			s += rs.getInt(1) + "-";
-			s += rs.getInt(2);
+			s += rs.getDouble(2);
 		}
 		return s;
 	}
