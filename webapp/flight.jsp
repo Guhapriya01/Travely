@@ -75,6 +75,16 @@
 	cursor: pointer;
 }
 
+#val{
+	padding: 23px;
+	box-shadow: aquamarine;
+	font-size: 24px;
+	text-align: center;
+	font-style: oblique;
+	font-variant: petite-caps;
+	font-weight: bold;
+}
+
 .back-img {
 	background: url("https://wallpaperaccess.com/full/254361.jpg");
 	width: 100%;
@@ -99,7 +109,7 @@
 	integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ"
 	crossorigin="anonymous">
 </head>
-<body style="margin: 0px">
+<body style="margin: 0px;">
 	<%@include file="all_components/navbar.jsp"%>
 	<div class="back-img">
 		<div>
@@ -157,7 +167,8 @@
 	String flightName = "", cabin = "";
 	%>
 
-	<table class="table table-bordered">
+	<table class="table table-bordered"
+		style="width: 80%; margin-left: 10%; margin-top: 55px;">
 		<tbody>
 			<%
 			if (request.getAttribute("flights") != null) {
@@ -175,19 +186,21 @@
 				flightName = (String) flight.getName();
 			%>
 			<tr>
-				<td><%=flight.getName()%></td>
-				<td><%=flight.getPrice()%></td>
-				<td><%=flight.getDeparture()%></td>
+				<td id="val"><%=flight.getName()%></td>
+				<td style="text-align: center; padding-top: 3%;">  <span>&#8377;</span>  <b>  <%=flight.getPrice()%> </b></td>
+				<td style="text-align: center; padding-top: 3%;">Depart at <b><%=flight.getDeparture()%></b></td>
 				<form action="FlightName" method="post">
 					<input id="name" name="name" type="hidden"
 						value="<%=flight.getName()%>"> <input id="Gcabin"
 						name="Gcabin" type="hidden" value="<%=cabin%>">
-					<td><button type="submit">Book</button></td>
+					<td style="text-align: center; padding-top: 2%;"><button
+							style="border: none; color: white; background-color: #17931e; width:90px;border-radius: 14px; padding: 10px;"
+							type="submit">Book</button></td>
 				</form>
 			</tr>
 			<%
-			       }
-		     	}
+			}
+			}
 			}
 			%>
 		</tbody>

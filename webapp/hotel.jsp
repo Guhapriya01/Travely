@@ -176,11 +176,11 @@
 			%>
 			<tr>
 				<td id="val"><%=hotel.getName()%></td>
-				<td style="text-align: center;padding-top: 4%;"> Rs. <%=hotel.getPrice()%></td>
+				<td style="text-align: center;padding-top: 4%;">  <span>&#8377;</span>  <%=hotel.getPrice()%></td>
 				<td style="text-align: center;padding-top: 3%;"><b style="font-size: 26px;"> <%=hotel.getRooms()%> </b> Rooms Available</td>
 				<form action="HotelName" method="post">
 					<input id="name" name="name" type="hidden" value="<%=hotel.getName()%>">
-				<td style="text-align: center;padding-top: 2%;"><button  style="border: none;color: white;background-color: #4478b2;border-radius: 14px;padding: 10px;" type="submit">Book</button></td>
+				<td style="text-align: center;padding-top: 2%;"><button  style="border: none;color: white; background-color: #17931e; width:90px;border-radius: 14px;padding: 10px;" type="submit">Book</button></td>
 				</form>
 			</tr>
 			<%

@@ -267,13 +267,13 @@
 			%>
 			<tr>
 				<td id="val"><%=car.getType()%></td>
-				<td style="text-align: center;padding-top: 4%;"> Rs. <%=car.getPrice()%></td>
-				<td style="text-align: center;padding-top: 4%;"><%=car.getSeats()%></td>
+				<td style="text-align: center;padding-top: 3%;">  <span>&#8377;</span>  <b><%=car.getPrice()%></b> per day</td>
+				<td style="text-align: center;padding-top: 3%;"><b><%=car.getSeats()%></b> seats </td>
 				<form action="CarName" method="post">
 					<input id="name" name="name" type="hidden"
 						value="<%=car.getType()%>"> <input id="number"
 						name="number" type="hidden" value="<%=car.getNumber()%>">
-					<td style="text-align: center;padding-top: 2%;"><button type="submit" style="border: none;color: white;background-color: #4478b2;border-radius: 14px;padding: 10px;">Book</button></td>
+					<td style="text-align: center;padding-top: 2%;"><button type="submit" style="border: none;color: white; background-color: #17931e; width:90px;border-radius: 14px;padding: 10px;">Book</button></td>
 				</form>
 			</tr>
 			<%
