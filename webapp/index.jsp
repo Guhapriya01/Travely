@@ -99,6 +99,7 @@
 				sites...</p>
 
 			<div class="myList" align="center">
+                            <form name="form" action="Filter" method="POST">
 				<div class="pad">
 					<!--  <input class="form-control" required type="text" placeholder="From"
 						name="from" id="InputFrom"> -->
@@ -138,6 +139,7 @@
 				</div>
 			</div>
 		</div>
+           </form>
 	</div>
 
 	<div style="padding-top: 30px;">
