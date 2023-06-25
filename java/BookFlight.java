@@ -50,7 +50,7 @@ public class BookFlight extends HttpServlet {
 			int i = book.addFlightBooking(customerId, flightId, date, cabin, totalcost);
 			
 			// completed
-			String msg = i == 1 ? "Successfully Booked" : "Unable to book your hotel. Try again Later";
+			String msg = i == 1 ? "Successfully Booked" : "Unable to book your Flight ticket. Try again Later";
 			
 			HttpSession session = request.getSession();
 			session.setAttribute("message", msg);
