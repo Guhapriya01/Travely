@@ -1,6 +1,6 @@
 # Travely
 
-A web application developed using Java, Javascript, JS, Servlet and MySQL for booking flight tickets, renting cars and booking hotels for making travel easier. It provides an flexbile UI to search and filter the hotels, flights and cars.
+A web application developed using Java, Javascript, JSP, Servlet and MySQL for booking flight tickets, renting cars and booking hotels for making travel easier. It provides an flexbile UI to search and filter the hotels, flights and cars.
 
 
 **LOOK AND FEEL**
